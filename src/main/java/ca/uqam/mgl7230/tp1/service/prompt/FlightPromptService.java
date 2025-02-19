@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class FlightPromptService {
 
-    private FlightCatalog flightCatalog;
+    private final FlightCatalog flightCatalog;
 
     public FlightPromptService(FlightCatalog flightCatalog) {
         this.flightCatalog = flightCatalog;

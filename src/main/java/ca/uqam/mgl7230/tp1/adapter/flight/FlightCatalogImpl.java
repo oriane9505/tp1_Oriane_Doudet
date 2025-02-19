@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class FlightCatalogImpl implements FlightCatalog {
 
-    private Map<String, FlightInformation> flightInformationMap = new HashMap<>();
+    private final Map<String, FlightInformation> flightInformationMap = new HashMap<>();
 
     public FlightCatalogImpl() {
         flightInformationMap.put("UQAM001",

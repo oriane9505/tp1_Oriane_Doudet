@@ -33,9 +33,9 @@ public class FlightPassengerServiceTest {
         FlightCatalog flightCatalog = mock(FlightCatalog.class);
         given(flightCatalog.getFlightInformation(FLIGHT_NUMBER)).willReturn(flightInformation);
 
-        given(planeCatalog.getNumberSeatsFirstClass(flightInformation.getPlaneType())).willReturn(1);
-        given(planeCatalog.getNumberSeatsBusinessClass(flightInformation.getPlaneType())).willReturn(1);
-        given(planeCatalog.getNumberSeatsEconomyClass(flightInformation.getPlaneType())).willReturn(1);
+        given(planeCatalog.getNumberSeatsFirstClass(flightInformation.planeType())).willReturn(1);
+        given(planeCatalog.getNumberSeatsBusinessClass(flightInformation.planeType())).willReturn(1);
+        given(planeCatalog.getNumberSeatsEconomyClass(flightInformation.planeType())).willReturn(1);
 
         flightPassengerService = new FlightPassengerService(planeCatalog, flightCatalog, FLIGHT_NUMBER);
     }

@@ -2,13 +2,12 @@ package ca.uqam.mgl7230.tp1.model.passenger;
 
 public abstract class Passenger {
 
-    private String passport;
-    private String name;
-    private int age;
-    private PassengerClass type;
-    private int millagePoints;
+    private final String passport;
+    private final String name;
+    private final int age;
+    private final int millagePoints;
 
-    public Passenger(String passport, String name, int age, int millagePoints) {
+    protected Passenger(String passport, String name, int age, int millagePoints) {
         this.passport = passport;
         this.name = name;
         this.age = age;

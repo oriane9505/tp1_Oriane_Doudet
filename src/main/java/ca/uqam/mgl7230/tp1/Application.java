@@ -8,7 +8,6 @@ import ca.uqam.mgl7230.tp1.adapter.plane.PlaneCatalogImpl;
 import ca.uqam.mgl7230.tp1.config.FileWriterProvider;
 import ca.uqam.mgl7230.tp1.model.passenger.Passenger;
 import ca.uqam.mgl7230.tp1.model.passenger.PassengerKeyConstants;
-import ca.uqam.mgl7230.tp1.service.*;
 import ca.uqam.mgl7230.tp1.service.BookingService;
 import ca.uqam.mgl7230.tp1.service.FlightPassengerService;
 import ca.uqam.mgl7230.tp1.service.PassengerService;
@@ -25,7 +24,7 @@ public class Application {
 
     public static void main(String[] args) throws IOException {
         System.out.println("Service started...");
-        initialize result = initialize();
+        Initialize result = initialize();
         boolean shouldContinue = true;
         while (shouldContinue) {
             PassengerService passengerService = new PassengerService(result.distanceCalculator());
@@ -35,8 +34,10 @@ public class Application {
             Passenger passenger = passengerService.createPassenger(
                     result.flightCatalog().getFlightInformation(result.flightNumber()), passengerData);
             BookingService bookingService = new BookingService(result.flightPassengerService(), passengerService);
-            bookingService.book(passenger, result.flightCatalog().getFlightInformation(result.flightNumber()));
-            result.savePassengerInFlight().save(result.file(), passenger, result.flightNumber());
+            passenger = bookingService.book(passenger, result.flightCatalog().getFlightInformation(result.flightNumber()));
+            if (passenger != null) {
+                result.savePassengerInFlight().save(result.file(), passenger, result.flightNumber());
+            }
             System.out.println("Seats available: " + result.flightPassengerService().numberOfTotalSeatsAvailable());
             System.out.println("Continue adding passengers to this flight? yes or no");
             String continueChoice = result.scanner().nextLine();
@@ -48,7 +49,7 @@ public class Application {
         }
     }
 
-    private static initialize initialize() throws IOException {
+    private static Initialize initialize() throws IOException {
         DistanceCalculator distanceCalculator = new DistanceCalculator();
         Scanner scanner = new Scanner(System.in);
         PlaneCatalog planeCatalog = new PlaneCatalogImpl();
@@ -58,13 +59,13 @@ public class Application {
         file.flush();
         SavePassengerInFlight savePassengerInFlight = new SavePassengerInFlight();
         FlightPromptService flightPromptService = new FlightPromptService(flightCatalog);
-        String flightNumber = flightPromptService.getFlightInformation(scanner).getFlightNumber();
+        String flightNumber = flightPromptService.getFlightInformation(scanner).flightNumber();
         FlightPassengerService flightPassengerService = new FlightPassengerService(planeCatalog, flightCatalog, flightNumber);
-        return new initialize(distanceCalculator, scanner, flightCatalog, file,
+        return new Initialize(distanceCalculator, scanner, flightCatalog, file,
                 savePassengerInFlight, flightNumber, flightPassengerService);
     }
 
-    private record initialize(DistanceCalculator distanceCalculator, Scanner scanner, FlightCatalog flightCatalog,
+    private record Initialize(DistanceCalculator distanceCalculator, Scanner scanner, FlightCatalog flightCatalog,
                               FileWriter file, SavePassengerInFlight savePassengerInFlight,
                               String flightNumber, FlightPassengerService flightPassengerService) {
     }

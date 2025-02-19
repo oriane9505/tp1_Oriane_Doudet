@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class PassengerService {
 
-    private DistanceCalculator distanceCalculator;
+    private final DistanceCalculator distanceCalculator;
 
     public PassengerService(DistanceCalculator distanceCalculator) {
         this.distanceCalculator = distanceCalculator;

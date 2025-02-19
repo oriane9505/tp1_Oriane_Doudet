@@ -5,6 +5,6 @@ public enum PassengerKeyConstants {
     PASSENGER_PASSPORT,
     PASSENGER_NAME,
     PASSENGER_AGE,
-    PASSENGER_CLASS;
+    PASSENGER_CLASS
 
 }

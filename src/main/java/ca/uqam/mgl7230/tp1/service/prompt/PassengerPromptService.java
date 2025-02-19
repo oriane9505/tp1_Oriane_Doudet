@@ -15,13 +15,33 @@ public class PassengerPromptService {
         System.out.println("Enter Passenger name: ");
         String passengerName = scanner.nextLine();
         System.out.println("Enter Passenger age: ");
-        int passengerAge = Integer.parseInt(scanner.nextLine());
+        boolean validEntry = false;
+        int passengerAge = -1;
+        while (!validEntry) {
+            try {
+                passengerAge = Integer.parseInt(scanner.nextLine());
+                if (passengerAge >= 0) {
+                    validEntry = true;
+                } else {
+                    System.out.println("Passenger age must be a positive integer");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Passenger age must be a positive integer");
+            }
+        }
         System.out.println("Enter a passenger type: write first for First Class, " +
                 "business for Business Class or " +
                 "economy for Economy Class");
-        String passengerType = scanner.nextLine();
-
-        PassengerClass passengerClass = getPassengerClass(passengerType);
+        validEntry = false;
+        PassengerClass passengerClass = null;
+        while (!validEntry) {
+            try {
+                passengerClass = getPassengerClass(scanner.nextLine());
+                validEntry = true;
+            } catch (PassengerTypeNotFoundException e) {
+                System.out.println("Passenger type does not exist");
+            }
+        }
 
         return Map.of(PassengerKeyConstants.PASSENGER_PASSPORT, passengerPassport,
                 PassengerKeyConstants.PASSENGER_NAME, passengerName,
